@@ -1,0 +1,2817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Striver A2Z DSA Premium Dashboard</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.6);
+            --header-bg: rgba(51, 65, 85, 0.4);
+            --accent: #38bdf8; /* Sky Blue */
+            --accent-glow: rgba(56, 189, 248, 0.4);
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --success: #22c55e;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            /* Deep Mesh Gradient Background */
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+            background-attachment: fixed;
+            background-size: cover;
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        /* Typography */
+        h1 {
+            text-align: center;
+            background: linear-gradient(to right, #fff, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            margin-bottom: 40px;
+            letter-spacing: -1px;
+            font-size: 2.5rem;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        /* Search Bar */
+        .search-container {
+            margin-bottom: 30px;
+            position: sticky;
+            top: 20px;
+            z-index: 1000;
+        }
+
+        #searchBar {
+            width: 100%;
+            padding: 18px 25px;
+            font-size: 16px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: white;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+            box-sizing: border-box; /* Fix padding width issue */
+        }
+
+        #searchBar::placeholder { color: var(--text-muted); }
+        
+        #searchBar:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px var(--accent-glow);
+            outline: none;
+            transform: translateY(-2px);
+        }
+
+        /* Step Box (Glass Card) */
+        .step-box {
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            margin-bottom: 20px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .step-box:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Headers */
+        .step-header, .lec-header {
+            padding: 20px 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            user-select: none;
+            transition: background 0.2s;
+        }
+
+        .step-header {
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid transparent;
+        }
+        
+        .step-header:hover { background: rgba(255, 255, 255, 0.06); }
+
+        .lec-header {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px 30px;
+            color: var(--accent);
+            font-size: 0.95rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .lec-header:hover { background: rgba(0, 0, 0, 0.3); }
+
+        /* Problem List */
+        .problem-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .problem-item {
+            padding: 15px 30px 15px 40px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .problem-item:last-child { border-bottom: none; }
+        
+        .problem-item:hover {
+            background: rgba(56, 189, 248, 0.05);
+        }
+
+        .problem-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            flex-grow: 1;
+            transition: var(--transition);
+            margin-left: 15px;
+            position: relative;
+        }
+
+        .problem-link:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+
+        /* --- PREMIUM CHECKBOX STYLING --- */
+        /* Wrapper injected by JS */
+        .checkbox-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 22px;
+            height: 22px;
+            flex-shrink: 0; /* Prevent shrinking */
+        }
+
+        /* Hide default checkbox */
+        .checkbox-wrapper input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+            position: absolute;
+        }
+
+        /* Custom Box */
+        .custom-checkbox {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 22px;
+            width: 22px;
+            background-color: rgba(255,255,255,0.05);
+            border-radius: 6px;
+            border: 2px solid var(--text-muted);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        /* Checked State */
+        .checkbox-wrapper input:checked ~ .custom-checkbox {
+            background-color: var(--success);
+            border-color: var(--success);
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.6);
+            transform: scale(1.05);
+        }
+
+        /* Checkmark Icon */
+        .custom-checkbox:after {
+            content: "";
+            position: absolute;
+            display: none;
+            left: 6px;
+            top: 2px;
+            width: 6px;
+            height: 12px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .checkbox-wrapper input:checked ~ .custom-checkbox:after {
+            display: block;
+        }
+
+        /* Strikethrough effect when checked */
+        .checkbox-wrapper input:checked ~ .problem-text {
+            text-decoration: line-through;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Utilities */
+        .hidden { display: none !important; }
+        
+        .arrow {
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 5px;
+            border: 2px solid var(--bg-color);
+        }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .problem-item { padding: 15px 20px; }
+            .step-header { font-size: 1rem; padding: 15px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>A2Z DSA Dashboard</h1>
+    
+    <div class="search-container">
+        <input type="text" id="searchBar" placeholder="🔍 Search topics or problems..." onkeyup="runSearch()">
+    </div>
+
+    <div id="content">
+
+        <div class="step-box">
+            <div class="step-header" onclick="toggleSection('step_body_0', 'step_arrow_0')">
+                <span>Step 1: Learn the basics</span>
+                <span id="step_arrow_0" class="arrow">▼</span>
+            </div>
+            <div id="step_body_0" class="step-body hidden">
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_0_0', 'lec_arrow_0_0')">
+                        <span>Lec 1: Things to Know in C++/Java or any language</span>
+                        <span id="lec_arrow_0_0" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_0_0" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3Dqmgvx" target="_blank" class="problem-link">Data Types</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/java-if-else-decision-making0924/0?category%5B%5D=Java&category%5B%5D=Java&difficulty%5B%5D=-2&page=1&query=category%5B%5DJavadifficulty%5B%5D-2page1category%5B%5DJava" target="_blank" class="problem-link">If Else statements</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/java-switch-case-statement3529/1" target="_blank" class="problem-link">Switch Statement</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://www.codingninjas.com/studio/problems/nth-fibonacci-number_74156?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf" target="_blank" class="problem-link">For loops</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/while-loop-printtable-java/1" target="_blank" class="problem-link">While loops</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3DqE0ac" target="_blank" class="problem-link">Functions (Pass by Reference and Value)</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_0_1', 'lec_arrow_0_1')">
+                        <span>Lec 2: Build-up Logical Thinking</span>
+                        <span id="lec_arrow_0_1" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_0_1" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://takeuforward.org/time-complexity/time-and-space-complexity-strivers-a2z-dsa-course/" target="_blank" class="problem-link">Time Complexity [Learn Basics, and then analyse in next Steps]</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://takeuforward.org/strivers-a2z-dsa-course/must-do-pattern-problems-before-starting-dsa/" target="_blank" class="problem-link">Patterns</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_0_2', 'lec_arrow_0_2')">
+                        <span>Lec 3: Learn STL</span>
+                        <span id="lec_arrow_0_2" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_0_2" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://www.youtube.com/watch?v=RRVYpIET_RU" target="_blank" class="problem-link">C++ STL</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_0_3', 'lec_arrow_0_3')">
+                        <span>Lec 4: Know Basic Maths</span>
+                        <span id="lec_arrow_0_3" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_0_3" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/count-digits5716/1" target="_blank" class="problem-link">Count Digits</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/reverse-integer/" target="_blank" class="problem-link">Reverse a Number</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/palindrome-number/" target="_blank" class="problem-link">Check Palindrome</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/lcm-and-gcd4516/1" target="_blank" class="problem-link">GCD Or HCF</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/armstrong-number/" target="_blank" class="problem-link">Armstrong Numbers</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/sum-of-all-divisors-from-1-to-n4738/1" target="_blank" class="problem-link">Print all Divisors</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/minimum-number-of-jumps-1587115620/1" target="_blank" class="problem-link">Check for Prime</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_0_4', 'lec_arrow_0_4')">
+                        <span>Lec 5: Learn Basic Recursion</span>
+                        <span id="lec_arrow_0_4" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_0_4" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3K2epHv" target="_blank" class="problem-link">Understand recursion by print something N times</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3y2BiWz" target="_blank" class="problem-link">Print name N times using recursion</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/print-1-to-n-without-using-loops-1587115620/1" target="_blank" class="problem-link">Print 1 to N using recursion</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3LOkcBn" target="_blank" class="problem-link">Print N to 1 using recursion</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/sum-of-first-n-terms5843/1" target="_blank" class="problem-link">Sum of first N numbers</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/find-all-factorial-numbers-less-than-or-equal-to-n3548/0?problemType=functional&difficulty%5B%5D=-1&page=1&query=problemTypefunctionaldifficulty%5B%5D-1page1" target="_blank" class="problem-link">Factorial of N numbers</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/reverse-an-array/0" target="_blank" class="problem-link">Reverse an array</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/valid-palindrome/" target="_blank" class="problem-link">Check if a string is palindrome or not</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/fibonacci-number/" target="_blank" class="problem-link">Fibonacci Number</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_0_5', 'lec_arrow_0_5')">
+                        <span>Lec 6: Learn Basic Hashing</span>
+                        <span id="lec_arrow_0_5" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_0_5" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://takeuforward.org/hashing/hashing-maps-time-complexity-collisions-division-rule-of-hashing-strivers-a2z-dsa-course/" target="_blank" class="problem-link">Hashing Theory</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/frequency-of-array-elements-1587115620/0" target="_blank" class="problem-link">Counting frequencies of array elements</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/frequency-of-the-most-frequent-element/" target="_blank" class="problem-link">Find the highest/lowest frequency element</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-box">
+            <div class="step-header" onclick="toggleSection('step_body_1', 'step_arrow_1')">
+                <span>Step 2: Learn Important Sorting Techniques</span>
+                <span id="step_arrow_1" class="arrow">▼</span>
+            </div>
+            <div id="step_body_1" class="step-body hidden">
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_1_0', 'lec_arrow_1_0')">
+                        <span>Lec 1: Sorting-I</span>
+                        <span id="lec_arrow_1_0" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_1_0" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3ppA6YJ" target="_blank" class="problem-link">Selection Sort</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3w6yQx8" target="_blank" class="problem-link">Bubble Sort</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3JVcqot" target="_blank" class="problem-link">Insertion Sort</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_1_1', 'lec_arrow_1_1')">
+                        <span>Lec 2: Sorting-II</span>
+                        <span id="lec_arrow_1_1" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_1_1" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3A30Anw" target="_blank" class="problem-link">Merge Sort</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3QV65vI" target="_blank" class="problem-link">Recursive Bubble Sort</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3PxAWx1" target="_blank" class="problem-link">Recursive Insertion Sort</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3dsEbIK" target="_blank" class="problem-link">Quick Sort</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-box">
+            <div class="step-header" onclick="toggleSection('step_body_2', 'step_arrow_2')">
+                <span>Step 3: Solve Problems on Arrays [Easy -> Medium -> Hard]</span>
+                <span id="step_arrow_2" class="arrow">▼</span>
+            </div>
+            <div id="step_body_2" class="step-body hidden">
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_2_0', 'lec_arrow_2_0')">
+                        <span>Lec 1: Easy</span>
+                        <span id="lec_arrow_2_0" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_2_0" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3Pld280" target="_blank" class="problem-link">Largest Element in an Array</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3pFvBcN" target="_blank" class="problem-link">Second Largest Element in an Array without sorting</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/check-if-array-is-sorted-and-rotated/#:~:text=Input%3A%20nums%20%3D%20%5B2%2C,no%20rotation)%20to%20make%20nums." target="_blank" class="problem-link">Check if the array is sorted</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/remove-duplicates-from-sorted-array/#:~:text=Input%3A%20nums%20%3D%20%5B0%2C,%2C%203%2C%20and%204%20respectively." target="_blank" class="problem-link">Remove duplicates from Sorted array</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/rotate-array/" target="_blank" class="problem-link">Left Rotate an array by one place</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/rotate-array/" target="_blank" class="problem-link">Left rotate an array by D places</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/move-zeroes/" target="_blank" class="problem-link">Move Zeros to end</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3KcpHcB" target="_blank" class="problem-link">Linear Search</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3Ap7Onp" target="_blank" class="problem-link">Find the Union</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/missing-number/" target="_blank" class="problem-link">Find missing number in an array</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/max-consecutive-ones/" target="_blank" class="problem-link">Maximum Consecutive Ones</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/single-number/" target="_blank" class="problem-link">Find the number that appears once, and other numbers twice.</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/longest-sub-array-with-sum-k0809/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=longest-sub-array-with-sum-k" target="_blank" class="problem-link">Longest subarray with given sum K(positives)</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_2_1', 'lec_arrow_2_1')">
+                        <span>Lec 2: Medium</span>
+                        <span id="lec_arrow_2_1" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_2_1" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/longest-sub-array-with-sum-k0809/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=longest-sub-array-with-sum-k" target="_blank" class="problem-link">Longest subarray with sum K (Positives + Negatives)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/two-sum/" target="_blank" class="problem-link">2Sum Problem</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/sort-colors/" target="_blank" class="problem-link">Sort an array of 0's 1's and 2's</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/majority-element/" target="_blank" class="problem-link">Majority Element (>n/2 times)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/maximum-subarray/" target="_blank" class="problem-link">Kadane's Algorithm, maximum subarray sum</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3SLFFhs" target="_blank" class="problem-link">Print subarray with maximum subarray sum (extended version of above problem)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/" target="_blank" class="problem-link">Stock Buy and Sell</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/rearrange-array-elements-by-sign/" target="_blank" class="problem-link">Rearrange the array in alternating positive and negative items</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/next-permutation/" target="_blank" class="problem-link">Next Permutation</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3bZqbGc" target="_blank" class="problem-link">Leaders in an Array problem</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/longest-consecutive-sequence/solution/" target="_blank" class="problem-link">Longest Consecutive Sequence in an Array</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/set-matrix-zeroes/" target="_blank" class="problem-link">Set Matrix Zeros</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/rotate-image/" target="_blank" class="problem-link">Rotate Matrix by 90 degrees</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/spiral-matrix/" target="_blank" class="problem-link">Print the matrix in spiral manner</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/subarray-sum-equals-k/" target="_blank" class="problem-link">Count subarrays with given sum</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_2_2', 'lec_arrow_2_2')">
+                        <span>Lec 3: Hard</span>
+                        <span id="lec_arrow_2_2" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_2_2" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/pascals-triangle/" target="_blank" class="problem-link">Pascal's Triangle</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/majority-element-ii/" target="_blank" class="problem-link">Majority Element (n/3 times)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/3sum/" target="_blank" class="problem-link">3-Sum Problem</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/4sum/" target="_blank" class="problem-link">4-Sum Problem</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3w5QSzC" target="_blank" class="problem-link">Largest Subarray with 0 Sum</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://www.interviewbit.com/problems/subarray-with-given-xor/" target="_blank" class="problem-link">Count number of subarrays with given xor K</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/merge-intervals/" target="_blank" class="problem-link">Merge Overlapping Subintervals</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/merge-sorted-array/" target="_blank" class="problem-link">Merge two sorted arrays without extra space</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3zWZoCs" target="_blank" class="problem-link">Find the repeating and missing number</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3PtLWLM" target="_blank" class="problem-link">Count Inversions</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/reverse-pairs/" target="_blank" class="problem-link">Reverse Pairs</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/maximum-product-subarray/" target="_blank" class="problem-link">Maximum Product Subarray</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-box">
+            <div class="step-header" onclick="toggleSection('step_body_3', 'step_arrow_3')">
+                <span>Step 4: Binary Search [1D, 2D Arrays, Search Space]</span>
+                <span id="step_arrow_3" class="arrow">▼</span>
+            </div>
+            <div id="step_body_3" class="step-body hidden">
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_3_0', 'lec_arrow_3_0')">
+                        <span>Lec 1: BS on 1D Arrays</span>
+                        <span id="lec_arrow_3_0" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_3_0" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/binary-search/" target="_blank" class="problem-link">Binary Search to find X in sorted array</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3Cf398N" target="_blank" class="problem-link">Implement Lower Bound</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3CgDDjE" target="_blank" class="problem-link">Implement Upper Bound</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/search-insert-position/#:~:text=Search%20Insert%20Position%20%2D%20LeetCode&text=Given%20a%20sorted%20array%20of,(log%20n)%20runtime%20complexity." target="_blank" class="problem-link">Search Insert Position</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://www.codingninjas.com/codestudio/problems/ceiling-in-a-sorted-array_1825401" target="_blank" class="problem-link">Floor/Ceil in Sorted Array</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/" target="_blank" class="problem-link">Find the first or last occurrence of a given number in a sorted array</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3SVcOqW" target="_blank" class="problem-link">Count occurrences of a number in a sorted array with duplicates</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/search-in-rotated-sorted-array/" target="_blank" class="problem-link">Search in Rotated Sorted Array I</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/search-in-rotated-sorted-array-ii/" target="_blank" class="problem-link">Search in Rotated Sorted Array II</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank" class="problem-link">Find minimum in Rotated Sorted Array</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3dEvWJD" target="_blank" class="problem-link">Find out how many times has an array been rotated</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/single-element-in-a-sorted-array/" target="_blank" class="problem-link">Single element in a Sorted Array</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/find-peak-element/#:~:text=Find%20Peak%20Element%20%2D%20LeetCode&text=A%20peak%20element%20is%20an,to%20any%20of%20the%20peaks." target="_blank" class="problem-link">Find peak element</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_3_1', 'lec_arrow_3_1')">
+                        <span>Lec 2: BS on Answers</span>
+                        <span id="lec_arrow_3_1" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_3_1" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3JXtGcE" target="_blank" class="problem-link">Find square root of a number in log n</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3zWNyrL" target="_blank" class="problem-link">Find the Nth root of a number using binary search</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/koko-eating-bananas/" target="_blank" class="problem-link">Koko Eating Bananas</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/minimum-number-of-days-to-make-m-bouquets/" target="_blank" class="problem-link">Minimum days to make M bouquets</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/find-the-smallest-divisor-given-a-threshold/" target="_blank" class="problem-link">Find the smallest Divisor</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/" target="_blank" class="problem-link">Capacity to Ship Packages within D Days</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/kth-missing-positive-number/#:~:text=Given%20an%20array%20arr%20of,13%2C...%5D." target="_blank" class="problem-link">Kth Missing Positive Number</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://www.spoj.com/problems/AGGRCOW/" target="_blank" class="problem-link">Aggressive Cows</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3MZQOct" target="_blank" class="problem-link">Book Allocation Problem</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/split-array-largest-sum/" target="_blank" class="problem-link">Split array - Largest Sum</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://www.codingninjas.com/studio/problems/painter-s-partition-problem_1089557?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf" target="_blank" class="problem-link">Painter's partition</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/minimize-max-distance-to-gas-station/" target="_blank" class="problem-link">Minimize Max Distance to Gas Station</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/median-of-two-sorted-arrays/" target="_blank" class="problem-link">Median of 2 sorted arrays</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3Amcomr" target="_blank" class="problem-link">Kth element of 2 sorted arrays</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_3_2', 'lec_arrow_3_2')">
+                        <span>Lec 3: BS on 2D Arrays</span>
+                        <span id="lec_arrow_3_2" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_3_2" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3QNDw2W" target="_blank" class="problem-link">Find the row with maximum number of 1's</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/search-a-2d-matrix/" target="_blank" class="problem-link">Search in a 2 D matrix</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/search-a-2d-matrix-ii/" target="_blank" class="problem-link">Search in a row and column wise sorted matrix</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/find-a-peak-element-ii/" target="_blank" class="problem-link">Find Peak Element (2D Matrix)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3PvwuPk" target="_blank" class="problem-link">Matrix Median</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-box">
+            <div class="step-header" onclick="toggleSection('step_body_4', 'step_arrow_4')">
+                <span>Step 5: Strings [Basic & Medium]</span>
+                <span id="step_arrow_4" class="arrow">▼</span>
+            </div>
+            <div id="step_body_4" class="step-body hidden">
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_4_0', 'lec_arrow_4_0')">
+                        <span>Lec 1: Basic and Easy Strings</span>
+                        <span id="lec_arrow_4_0" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_4_0" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/remove-outermost-parentheses/" target="_blank" class="problem-link">Remove outermost Paranthesis</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/reverse-words-in-a-string/" target="_blank" class="problem-link">Reverse words in a given string / Palindrome Check</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/largest-odd-number-in-string/" target="_blank" class="problem-link">Largest odd number in a string</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/longest-common-prefix/" target="_blank" class="problem-link">Longest Common Prefix</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/isomorphic-strings/" target="_blank" class="problem-link">Isomorphic String</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/rotate-string/" target="_blank" class="problem-link">check whether one string is a rotation of another</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/valid-anagram/#:~:text=Given%20two%20strings%20s%20and,the%20original%20letters%20exactly%20once.&text=Constraints%3A,.length%20%3C%3D%205%20*%2010" target="_blank" class="problem-link">Check if two strings are anagram of each other</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_4_1', 'lec_arrow_4_1')">
+                        <span>Lec 2: Medium String Problems</span>
+                        <span id="lec_arrow_4_1" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_4_1" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/sort-characters-by-frequency/" target="_blank" class="problem-link">Sort Characters by frequency</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/maximum-nesting-depth-of-the-parentheses/" target="_blank" class="problem-link">Maximum Nesting Depth of Paranthesis</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/roman-to-integer/" target="_blank" class="problem-link">Roman Number to Integer and vice versa</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/string-to-integer-atoi/" target="_blank" class="problem-link">Implement Atoi</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3CfQfYi" target="_blank" class="problem-link">Count Number of Substrings</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/longest-palindromic-substring/" target="_blank" class="problem-link">Longest Palindromic Substring[Do it without DP]</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/sum-of-beauty-of-all-substrings/" target="_blank" class="problem-link">Sum of Beauty of all substring</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/reverse-words-in-a-string/" target="_blank" class="problem-link">Reverse Every Word in A String</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-box">
+            <div class="step-header" onclick="toggleSection('step_body_5', 'step_arrow_5')">
+                <span>Step 6: Learn LinkedList [Single LL, Double LL, Medium, Hard]</span>
+                <span id="step_arrow_5" class="arrow">▼</span>
+            </div>
+            <div id="step_body_5" class="step-body hidden">
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_5_0', 'lec_arrow_5_0')">
+                        <span>Lec 1: Learn 1D LinkedList</span>
+                        <span id="lec_arrow_5_0" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_5_0" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3URZnst" target="_blank" class="problem-link">Introduction to LinkedList, learn about struct, and how is node represented</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3w9pEIt" target="_blank" class="problem-link">Inserting a node in LinkedList</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/delete-node-in-a-linked-list/" target="_blank" class="problem-link">Deleting a node in LinkedList</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3Po7tpf" target="_blank" class="problem-link">Find the length of the linkedlist [learn traversal]</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3Epriup" target="_blank" class="problem-link">Search an element in the LL</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_5_1', 'lec_arrow_5_1')">
+                        <span>Lec 2: Learn Doubly LinkedList</span>
+                        <span id="lec_arrow_5_1" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_5_1" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3V9wY1v" target="_blank" class="problem-link">Introduction to DLL, learn about struct, and how is node represented</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3QD4hHs" target="_blank" class="problem-link">Insert a node in DLL</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3QlEoMx" target="_blank" class="problem-link">Delete a node in DLL</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3w6hUaa" target="_blank" class="problem-link">Reverse a DLL</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_5_2', 'lec_arrow_5_2')">
+                        <span>Lec 3: Medium Problems of LL</span>
+                        <span id="lec_arrow_5_2" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_5_2" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/middle-of-the-linked-list/" target="_blank" class="problem-link">Middle of a LinkedList [TortoiseHare Method]</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/reverse-linked-list/" target="_blank" class="problem-link">Reverse a LinkedList [Iterative]</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/reverse-linked-list/" target="_blank" class="problem-link">Reverse a LL [Recursive]</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/linked-list-cycle/" target="_blank" class="problem-link">Detect a loop in LL</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/linked-list-cycle-ii/" target="_blank" class="problem-link">Find the starting point in LL</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3dyXL6m" target="_blank" class="problem-link">Length of Loop in LL</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/palindrome-linked-list/" target="_blank" class="problem-link">Check if LL is palindrome or not</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/odd-even-linked-list/" target="_blank" class="problem-link">Segrregate odd and even nodes in LL</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/remove-nth-node-from-end-of-list/" target="_blank" class="problem-link">Remove Nth node from the back of the LL</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/delete-the-middle-node-of-a-linked-list/#:~:text=You%20are%20given%20the%20head,than%20or%20equal%20to%20x%20." target="_blank" class="problem-link">Delete the middle node of LL</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/sort-list/" target="_blank" class="problem-link">Sort LL</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3Ceotvr" target="_blank" class="problem-link">Sort a LL of 0's 1's and 2's by changing links</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/intersection-of-two-linked-lists/" target="_blank" class="problem-link">Find the intersection point of Y LL</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3piCTD3" target="_blank" class="problem-link">Add 1 to a number represented by LL</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/add-two-numbers/" target="_blank" class="problem-link">Add 2 numbers in LL</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_5_3', 'lec_arrow_5_3')">
+                        <span>Lec 4: Medium Problems of DLL</span>
+                        <span id="lec_arrow_5_3" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_5_3" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3zuBr66" target="_blank" class="problem-link">Delete all occurrences of a key in DLL</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3zWPiBj" target="_blank" class="problem-link">Find pairs with given sum in DLL</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3FtJUtZ" target="_blank" class="problem-link">Remove duplicates from sorted DLL</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_5_4', 'lec_arrow_5_4')">
+                        <span>Lec 5: Hard Problems of LL</span>
+                        <span id="lec_arrow_5_4" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_5_4" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/reverse-nodes-in-k-group/" target="_blank" class="problem-link">Reverse LL in group of given size K</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/rotate-list/description/" target="_blank" class="problem-link">Rotate a LL</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3w9TKf8" target="_blank" class="problem-link">Flattening of LL</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/copy-list-with-random-pointer/" target="_blank" class="problem-link">Clone a Linked List with random and next pointer</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-box">
+            <div class="step-header" onclick="toggleSection('step_body_6', 'step_arrow_6')">
+                <span>Step 7: Recursion [Pattern Wise]</span>
+                <span id="step_arrow_6" class="arrow">▼</span>
+            </div>
+            <div id="step_body_6" class="step-body hidden">
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_6_0', 'lec_arrow_6_0')">
+                        <span>Lec 1: Strong Foundation</span>
+                        <span id="lec_arrow_6_0" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_6_0" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/string-to-integer-atoi/" target="_blank" class="problem-link">Recursive Implementation of atoi()</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/powx-n/" target="_blank" class="problem-link">Pow(x, n)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/count-good-numbers/" target="_blank" class="problem-link">Count Good numbers</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3Pu0YBn" target="_blank" class="problem-link">Sort a stack using recursion</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3podAiY" target="_blank" class="problem-link">Reverse a stack using recursion</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_6_1', 'lec_arrow_6_1')">
+                        <span>Lec 2: Subsequences Pattern</span>
+                        <span id="lec_arrow_6_1" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_6_1" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3QJ0vwc" target="_blank" class="problem-link">Generate all binary strings</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/generate-parentheses/" target="_blank" class="problem-link">Generate Paranthesis</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/subsets/" target="_blank" class="problem-link">Print all subsequences/Power Set</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3US225G" target="_blank" class="problem-link">Learn All Patterns of Subsequences (Theory)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3SVf1me" target="_blank" class="problem-link">Count all subsequences with sum K</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://www.codingninjas.com/studio/problems/subset-sum_630213?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf" target="_blank" class="problem-link">Check if there exists a subsequence with sum K</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/combination-sum/" target="_blank" class="problem-link">Combination Sum</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/combination-sum-ii/" target="_blank" class="problem-link">Combination Sum-II</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3C9GQRS" target="_blank" class="problem-link">Subset Sum-I</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/subsets-ii/" target="_blank" class="problem-link">Subset Sum-II</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/combination-sum-iii/" target="_blank" class="problem-link">Combination Sum - III</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/letter-combinations-of-a-phone-number/" target="_blank" class="problem-link">Letter Combinations of a Phone number</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_6_2', 'lec_arrow_6_2')">
+                        <span>Lec 3: Trying all Combinations (Hard)</span>
+                        <span id="lec_arrow_6_2" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_6_2" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/palindrome-partitioning/" target="_blank" class="problem-link">Palindrome Partitioning</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/word-search/" target="_blank" class="problem-link">Word Search</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/n-queens/" target="_blank" class="problem-link">N Queen</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/rat-in-a-maze-problem/1" target="_blank" class="problem-link">Rat in a Maze</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/word-break/" target="_blank" class="problem-link">Word Break</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/m-coloring-problem-1587115620/1#" target="_blank" class="problem-link">M Coloring Problem</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/sudoku-solver/" target="_blank" class="problem-link">Sudoko Solver</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/expression-add-operators/" target="_blank" class="problem-link">Expression Add Operators</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-box">
+            <div class="step-header" onclick="toggleSection('step_body_7', 'step_arrow_7')">
+                <span>Step 8: Bit Manipulation [Concepts & Tips]</span>
+                <span id="step_arrow_7" class="arrow">▼</span>
+            </div>
+            <div id="step_body_7" class="step-body hidden">
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_7_0', 'lec_arrow_7_0')">
+                        <span>Lec 1: Learn Specific Bits</span>
+                        <span id="lec_arrow_7_0" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_7_0" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3Eo8JVW" target="_blank" class="problem-link">Introduction to Bit Manipulation [Theory]</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/check-whether-k-th-bit-is-set-or-not-1587115620/1" target="_blank" class="problem-link">Check if the i-th bit is set or not</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/odd-or-even3618/1" target="_blank" class="problem-link">Check if a number is odd or not</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/power-of-two/" target="_blank" class="problem-link">Check if a number is power of 2 or not</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/count-total-set-bits-1587115620/1" target="_blank" class="problem-link">Count the number of set bits</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/set-the-rightmost-unset-bit4436/1" target="_blank" class="problem-link">Set/Unset the rightmost unset bit</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/swap-two-numbers3844/1" target="_blank" class="problem-link">Swap two numbers</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/divide-two-integers/" target="_blank" class="problem-link">Divide two integers without using multiplication, division and mod operator</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_7_1', 'lec_arrow_7_1')">
+                        <span>Lec 2: Interview Problems</span>
+                        <span id="lec_arrow_7_1" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_7_1" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/minimum-bit-flips-to-convert-number/" target="_blank" class="problem-link">Count number of bits to be flipped to convert A to B</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/single-number/" target="_blank" class="problem-link">Find the number that appears odd number of times</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/subsets/" target="_blank" class="problem-link">Power Set</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3T8xUCf" target="_blank" class="problem-link">Find xor of numbers from L to R</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/two-numbers-with-odd-occurrences5846/1" target="_blank" class="problem-link">Find the two numbers appearing odd number of times</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_7_2', 'lec_arrow_7_2')">
+                        <span>Lec 3: Advanced Maths</span>
+                        <span id="lec_arrow_7_2" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_7_2" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3C165p8" target="_blank" class="problem-link">Print Prime Factors of a Number</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/all-divisors-of-a-number/1?utm_source=youtube&amp;utm_medium=collab_striver_ytdescription&amp;utm_campaign=all-divisors-of-a-number" target="_blank" class="problem-link">All Divisors of a Number</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/count-primes/" target="_blank" class="problem-link">Sieve of Eratosthenes</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3SPGzbK" target="_blank" class="problem-link">Find Prime Factorisation of a Number using Sieve</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/powx-n/" target="_blank" class="problem-link">Power(n, x)</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-box">
+            <div class="step-header" onclick="toggleSection('step_body_8', 'step_arrow_8')">
+                <span>Step 9: Stack and Queues [Learning, Pre-In-Post, Monotonic, Implementation]</span>
+                <span id="step_arrow_8" class="arrow">▼</span>
+            </div>
+            <div id="step_body_8" class="step-body hidden">
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_8_0', 'lec_arrow_8_0')">
+                        <span>Lec 1: Learning</span>
+                        <span id="lec_arrow_8_0" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_8_0" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3QPJ39w" target="_blank" class="problem-link">Implement Stack using Arrays</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3C9HLli" target="_blank" class="problem-link">Implement Queue using Arrays</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/implement-stack-using-queues/" target="_blank" class="problem-link">Implement Stack using Queue</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/implement-queue-using-stacks/" target="_blank" class="problem-link">Implement Queue using Stack</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3w6PwVv" target="_blank" class="problem-link">Implement stack using Linkedlist</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3PA7mY0" target="_blank" class="problem-link">Implement queue using Linkedlist</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/valid-parentheses/" target="_blank" class="problem-link">Check for balanced paranthesis</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/min-stack/" target="_blank" class="problem-link">Implement Min Stack</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_8_1', 'lec_arrow_8_1')">
+                        <span>Lec 2: Prefix, Infix, Postfix Conversion Problems</span>
+                        <span id="lec_arrow_8_1" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_8_1" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3JWYj1P" target="_blank" class="problem-link">Infix to Postfix Conversion using Stack</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3FwxK3j" target="_blank" class="problem-link">Prefix to Infix Conversion</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3DrwCLI" target="_blank" class="problem-link">Prefix to Postfix Conversion</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3UaWJxk" target="_blank" class="problem-link">Postfix to Prefix Conversion</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3sNZ1a2" target="_blank" class="problem-link">Postfix to Infix</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3T0gZ4P" target="_blank" class="problem-link">Convert Infix To Prefix Notation</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_8_2', 'lec_arrow_8_2')">
+                        <span>Lec 3: Monotonic Stack/Queue Problems [VVV. Imp]</span>
+                        <span id="lec_arrow_8_2" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_8_2" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/next-greater-element-i/" target="_blank" class="problem-link">Next Greater Element</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/next-greater-element-ii/" target="_blank" class="problem-link">Next Greater Element 2</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://www.interviewbit.com/problems/nearest-smaller-element/" target="_blank" class="problem-link">Next Smaller Element</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3Np2R2H" target="_blank" class="problem-link">Number of NGEs to the right</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/trapping-rain-water/" target="_blank" class="problem-link">Trapping Rainwater</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/sum-of-subarray-minimums/" target="_blank" class="problem-link">Sum of subarray minimum</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/asteroid-collision/" target="_blank" class="problem-link">Asteroid Collision</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/sum-of-subarray-ranges/" target="_blank" class="problem-link">Sum of subarray ranges</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/remove-k-digits/" target="_blank" class="problem-link">Remove k Digits</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/largest-rectangle-in-histogram/" target="_blank" class="problem-link">Largest rectangle in a histogram</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/maximal-rectangle/" target="_blank" class="problem-link">Maximal Rectangles</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_8_3', 'lec_arrow_8_3')">
+                        <span>Lec 4: Implementation Problems</span>
+                        <span id="lec_arrow_8_3" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_8_3" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/sliding-window-maximum/" target="_blank" class="problem-link">Sliding Window maximum</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/online-stock-span/" target="_blank" class="problem-link">Stock span problem</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/accounts/login/?next=/problems/find-the-celebrity/" target="_blank" class="problem-link">The Celebrity Problem</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/lru-cache/" target="_blank" class="problem-link">LRU cache (IMPORTANT)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/lfu-cache/" target="_blank" class="problem-link">LFU cache</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-box">
+            <div class="step-header" onclick="toggleSection('step_body_9', 'step_arrow_9')">
+                <span>Step 10: Sliding Window & Two Pointer Combined Problems</span>
+                <span id="step_arrow_9" class="arrow">▼</span>
+            </div>
+            <div id="step_body_9" class="step-body hidden">
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_9_0', 'lec_arrow_9_0')">
+                        <span>Lec 1: Medium Problems</span>
+                        <span id="lec_arrow_9_0" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_9_0" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/longest-substring-without-repeating-characters/" target="_blank" class="problem-link">Longest Substring Without Repeating Characters</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/max-consecutive-ones-iii/" target="_blank" class="problem-link">Max Consecutive Ones III</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3D6d94w" target="_blank" class="problem-link">Fruit Into Baskets</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/longest-repeating-character-replacement/" target="_blank" class="problem-link">longest repeating character replacement</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/binary-subarrays-with-sum/" target="_blank" class="problem-link">Binary subarray with sum</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/count-number-of-nice-subarrays/" target="_blank" class="problem-link">Count number of nice subarrays</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/number-of-substrings-containing-all-three-characters/" target="_blank" class="problem-link">Number of substring containing all three characters</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_9_1', 'lec_arrow_9_1')">
+                        <span>Lec 2: Hard Problems</span>
+                        <span id="lec_arrow_9_1" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_9_1" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/maximum-points-you-can-obtain-from-cards/" target="_blank" class="problem-link">Maximum point you can obtain from cards</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/" target="_blank" class="problem-link">Longest Substring with At Most K Distinct Characters</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/subarrays-with-k-different-integers/" target="_blank" class="problem-link">Subarray with k different integers</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/minimum-window-substring/" target="_blank" class="problem-link">Minimum Window Substring</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/minimum-window-subsequence/" target="_blank" class="problem-link">Minimum Window Subsequence</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-box">
+            <div class="step-header" onclick="toggleSection('step_body_10', 'step_arrow_10')">
+                <span>Step 11: Heaps [Learning, Medium, Hard Problems]</span>
+                <span id="step_arrow_10" class="arrow">▼</span>
+            </div>
+            <div id="step_body_10" class="step-body hidden">
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_10_0', 'lec_arrow_10_0')">
+                        <span>Lec 1: Learning</span>
+                        <span id="lec_arrow_10_0" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_10_0" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3TSxAHd" target="_blank" class="problem-link">Introduction to Priority Queues using Binary Heaps</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3weGgP3" target="_blank" class="problem-link">Min Heap and Max Heap Implementation</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3AbFrrI" target="_blank" class="problem-link">Check if an array represents a min-heap or not</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_10_1', 'lec_arrow_10_1')">
+                        <span>Lec 2: Medium Problems</span>
+                        <span id="lec_arrow_10_1" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_10_1" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3flmw7c" target="_blank" class="problem-link">Convert min Heap to max Heap</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/kth-largest-element-in-an-array/" target="_blank" class="problem-link">Kth largest element in an array [use priority queue]</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3PvAOhK" target="_blank" class="problem-link">Kth smallest element in an array [use priority queue]</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3QLpaAs" target="_blank" class="problem-link">Sort K sorted array</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/merge-k-sorted-lists/" target="_blank" class="problem-link">Merge M sorted Lists</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3TS3jcg" target="_blank" class="problem-link">Replace each array element by its corresponding rank</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_10_2', 'lec_arrow_10_2')">
+                        <span>Lec 3: Hard Problems</span>
+                        <span id="lec_arrow_10_2" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_10_2" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/task-scheduler/" target="_blank" class="problem-link">Task Scheduler</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/hand-of-straights/" target="_blank" class="problem-link">Hands of Straights</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/design-twitter/" target="_blank" class="problem-link">Design twitter</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-box">
+            <div class="step-header" onclick="toggleSection('step_body_11', 'step_arrow_11')">
+                <span>Step 12: Greedy Algorithms [Easy, Medium/Hard]</span>
+                <span id="step_arrow_11" class="arrow">▼</span>
+            </div>
+            <div id="step_body_11" class="step-body hidden">
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_11_0', 'lec_arrow_11_0')">
+                        <span>Lec 1: Easy Problems</span>
+                        <span id="lec_arrow_11_0" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_11_0" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/assign-cookies/" target="_blank" class="problem-link">Assign Cookies</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/fractional-knapsack-1587115620/1" target="_blank" class="problem-link">Fractional Knapsack Problem</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://www.geeksforgeeks.org/find-minimum-number-of-coins-that-make-a-change/" target="_blank" class="problem-link">Greedy algorithm to find minimum number of coins</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/lemonade-change/" target="_blank" class="problem-link">Lemonade Change</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/valid-parenthesis-string/" target="_blank" class="problem-link">Valid Paranthesis Checker</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_11_1', 'lec_arrow_11_1')">
+                        <span>Lec 2: Medium/Hard Problems</span>
+                        <span id="lec_arrow_11_1" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_11_1" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/n-meetings-in-one-room-1587115620/1" target="_blank" class="problem-link">N meetings in one room</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/jump-game/" target="_blank" class="problem-link">Jump Game</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/jump-game-ii/" target="_blank" class="problem-link">Jump Game 2</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/minimum-platforms-1587115620/1#" target="_blank" class="problem-link">Minimum number of platforms required for a railway</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/job-sequencing-problem-1587115620/1#" target="_blank" class="problem-link">Job sequencing Problem</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/candy/" target="_blank" class="problem-link">Candy</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3DYCIFb" target="_blank" class="problem-link">Program for Shortest Job First (or SJF) CPU Scheduling</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3dtFqHG" target="_blank" class="problem-link">Program for Least Recently Used (LRU) Page Replacement Algorithm</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/insert-interval/" target="_blank" class="problem-link">Insert Interval</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/merge-intervals/" target="_blank" class="problem-link">Merge Intervals</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/non-overlapping-intervals/" target="_blank" class="problem-link">Non-overlapping Intervals</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-box">
+            <div class="step-header" onclick="toggleSection('step_body_12', 'step_arrow_12')">
+                <span>Step 13: Binary Trees [Traversals, Medium, Hard Problems]</span>
+                <span id="step_arrow_12" class="arrow">▼</span>
+            </div>
+            <div id="step_body_12" class="step-body hidden">
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_12_0', 'lec_arrow_12_0')">
+                        <span>Lec 1: Traversals</span>
+                        <span id="lec_arrow_12_0" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_12_0" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3EsRmTM" target="_blank" class="problem-link">Introduction to Trees</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3gn5Soh" target="_blank" class="problem-link">Binary Tree Representation in C++</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3gn5Soh" target="_blank" class="problem-link">Binary Tree Representation in Java</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://www.codingninjas.com/codestudio/problems/tree-traversal_981269?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf" target="_blank" class="problem-link">Binary Tree Traversals in Binary Tree</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/binary-tree-preorder-traversal/" target="_blank" class="problem-link">Preorder Traversal of Binary Tree</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/binary-tree-inorder-traversal/" target="_blank" class="problem-link">Inorder Traversal of Binary Tree</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/binary-tree-postorder-traversal/" target="_blank" class="problem-link">Post-order Traversal of Binary Tree</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/binary-tree-level-order-traversal/" target="_blank" class="problem-link">Level order Traversal / Level order traversal in spiral form</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/binary-tree-preorder-traversal/" target="_blank" class="problem-link">Iterative Preorder Traversal of Binary Tree</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/binary-tree-inorder-traversal/" target="_blank" class="problem-link">Iterative Inorder Traversal of Binary Tree</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/binary-tree-postorder-traversal/" target="_blank" class="problem-link">Post-order Traversal of Binary Tree using 2 stack</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/binary-tree-postorder-traversal/" target="_blank" class="problem-link">Post-order Traversal of Binary Tree using 1 stack</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3T3oW9M" target="_blank" class="problem-link">Preorder, Inorder, and Postorder Traversal in one Traversal</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_12_1', 'lec_arrow_12_1')">
+                        <span>Lec 2: Medium Problems</span>
+                        <span id="lec_arrow_12_1" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_12_1" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/maximum-depth-of-binary-tree/" target="_blank" class="problem-link">Height of a Binary Tree</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/balanced-binary-tree/" target="_blank" class="problem-link">Check if the Binary tree is height-balanced or not</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/diameter-of-binary-tree/" target="_blank" class="problem-link">Diameter of Binary Tree</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/binary-tree-maximum-path-sum/" target="_blank" class="problem-link">Maximum path sum</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/same-tree/" target="_blank" class="problem-link">Check if two trees are identical or not</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/" target="_blank" class="problem-link">Zig Zag Traversal of Binary Tree</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/boundary-of-binary-tree/" target="_blank" class="problem-link">Boundary Traversal of Binary Tree</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/" target="_blank" class="problem-link">Vertical Order Traversal of Binary Tree</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/top-view-of-binary-tree/1" target="_blank" class="problem-link">Top View of Binary Tree</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/bottom-view-of-binary-tree/1" target="_blank" class="problem-link">Bottom View of Binary Tree</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/binary-tree-right-side-view/" target="_blank" class="problem-link">Right/Left View of Binary Tree</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/symmetric-tree/" target="_blank" class="problem-link">Symmetric Binary Tree</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_12_2', 'lec_arrow_12_2')">
+                        <span>Lec 3: Hard Problems</span>
+                        <span id="lec_arrow_12_2" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_12_2" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3QA600D" target="_blank" class="problem-link">Root to Node Path in Binary Tree</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/" target="_blank" class="problem-link">LCA in Binary Tree</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/maximum-width-of-binary-tree/" target="_blank" class="problem-link">Maximum width of a Binary Tree</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3dEr73g" target="_blank" class="problem-link">Check for Children Sum Property</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/all-nodes-distance-k-in-binary-tree/" target="_blank" class="problem-link">Print all the Nodes at a distance of K in a Binary Tree</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3wcg7k1" target="_blank" class="problem-link">Minimum time taken to BURN the Binary Tree from a Node</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/count-complete-tree-nodes/" target="_blank" class="problem-link">Count total Nodes in a COMPLETE Binary Tree</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3UVCR1U" target="_blank" class="problem-link">Requirements needed to construct a Unique Binary Tree | Theory</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/" target="_blank" class="problem-link">Construct Binary Tree from inorder and preorder</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/" target="_blank" class="problem-link">Construct the Binary Tree from Postorder and Inorder Traversal</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/serialize-and-deserialize-binary-tree/" target="_blank" class="problem-link">Serialize and deserialize Binary Tree</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/binary-tree-inorder-traversal/" target="_blank" class="problem-link">Morris Preorder Traversal of a Binary Tree</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/binary-tree-inorder-traversal/" target="_blank" class="problem-link">Morris Inorder Traversal of a Binary Tree</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/flatten-binary-tree-to-linked-list/" target="_blank" class="problem-link">Flatten Binary Tree to LinkedList</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-box">
+            <div class="step-header" onclick="toggleSection('step_body_13', 'step_arrow_13')">
+                <span>Step 14: Binary Search Trees [Concepts and Practice]</span>
+                <span id="step_arrow_13" class="arrow">▼</span>
+            </div>
+            <div id="step_body_13" class="step-body hidden">
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_13_0', 'lec_arrow_13_0')">
+                        <span>Lec 1: Concepts</span>
+                        <span id="lec_arrow_13_0" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_13_0" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3gprRLk" target="_blank" class="problem-link">Introduction to Binary Search Tree</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/search-in-a-binary-search-tree/" target="_blank" class="problem-link">Search in a Binary Search Tree</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/minimum-element-in-bst/1" target="_blank" class="problem-link">Find Min/Max in BST</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/implementing-ceil-in-bst/1" target="_blank" class="problem-link">Ceil in a Binary Search Tree</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3TSbXXE" target="_blank" class="problem-link">Floor in a Binary Search Tree</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/insert-into-a-binary-search-tree/" target="_blank" class="problem-link">Insert a given Node in Binary Search Tree</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/delete-node-in-a-bst/" target="_blank" class="problem-link">Delete a Node in Binary Search Tree</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_13_1', 'lec_arrow_13_1')">
+                        <span>Lec 2: Practice Problems</span>
+                        <span id="lec_arrow_13_1" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_13_1" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/kth-smallest-element-in-a-bst/" target="_blank" class="problem-link">Find K-th smallest/largest element in BST</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/validate-binary-search-tree/" target="_blank" class="problem-link">Check if a tree is a BST or BT</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/" target="_blank" class="problem-link">LCA in Binary Search Tree</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/construct-binary-search-tree-from-preorder-traversal/" target="_blank" class="problem-link">Construct a BST from a preorder traversal</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/inorder-successor-in-bst/" target="_blank" class="problem-link">Inorder Successor/Predecessor in BST</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/binary-search-tree-iterator/" target="_blank" class="problem-link">Binary Search Tree Iterator</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/two-sum-iv-input-is-a-bst/" target="_blank" class="problem-link">Two Sum In BST | Check if there exists a pair with Sum K</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/recover-binary-search-tree/" target="_blank" class="problem-link">Recover BST | Correct BST with two nodes swapped</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/largest-bst/1" target="_blank" class="problem-link">Largest BST in Binary Tree</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-box">
+            <div class="step-header" onclick="toggleSection('step_body_14', 'step_arrow_14')">
+                <span>Step 15: Graphs [Learning, BFS/DFS, Topo Sort, Shortest Path, MST]</span>
+                <span id="step_arrow_14" class="arrow">▼</span>
+            </div>
+            <div id="step_body_14" class="step-body hidden">
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_14_0', 'lec_arrow_14_0')">
+                        <span>Lec 1: Learning</span>
+                        <span id="lec_arrow_14_0" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_14_0" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3gpY19t" target="_blank" class="problem-link">Graph and Types</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3dGuwyv" target="_blank" class="problem-link">Graph Representation | C++</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3dGuwyv" target="_blank" class="problem-link">Graph Representation | Java</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/" target="_blank" class="problem-link">Connected Components | Logic Explanation</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/bfs-traversal-of-graph/1" target="_blank" class="problem-link">BFS</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/depth-first-traversal-for-a-graph/1" target="_blank" class="problem-link">DFS</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_14_1', 'lec_arrow_14_1')">
+                        <span>Lec 2: Problems on BFS/DFS</span>
+                        <span id="lec_arrow_14_1" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_14_1" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/number-of-provinces/#:~:text=A%20province%20is%20a%20group,the%20total%20number%20of%20provinces." target="_blank" class="problem-link">Number of provinces (leetcode)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3AxzhDG" target="_blank" class="problem-link">Connected Components Problem in Matrix</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/rotting-oranges/" target="_blank" class="problem-link">Rotten Oranges</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/flood-fill/" target="_blank" class="problem-link">Flood fill</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/detect-cycle-in-an-undirected-graph/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=detect-cycle-in-an-undirected-graph" target="_blank" class="problem-link">Cycle Detection in unirected Graph (bfs)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/detect-cycle-in-an-undirected-graph/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=detect-cycle-in-an-undirected-graph" target="_blank" class="problem-link">Cycle Detection in undirected Graph (dfs)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/01-matrix/" target="_blank" class="problem-link">0/1 Matrix (Bfs Problem)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/surrounded-regions/" target="_blank" class="problem-link">Surrounded Regions (dfs)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/number-of-enclaves/" target="_blank" class="problem-link">Number of Enclaves [flood fill implementation - multisource]</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/word-ladder/" target="_blank" class="problem-link">Word ladder - 1</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/word-ladder-ii/" target="_blank" class="problem-link">Word ladder - 2</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/number-of-distinct-islands-ii/" target="_blank" class="problem-link">Number of Distinct Islands [dfs multisource]</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/is-graph-bipartite/" target="_blank" class="problem-link">Bipartite Graph (DFS)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/course-schedule-ii/discuss/293048/detecting-cycle-in-directed-graph-problem" target="_blank" class="problem-link">Cycle Detection in Directed Graph (DFS)</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_14_2', 'lec_arrow_14_2')">
+                        <span>Lec 3: Topo Sort and Problems</span>
+                        <span id="lec_arrow_14_2" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_14_2" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/topological-sort/1" target="_blank" class="problem-link">Topo Sort</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3c690mm" target="_blank" class="problem-link">Kahn's Algorithm</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/detect-cycle-in-a-directed-graph/1" target="_blank" class="problem-link">Cycle Detection in Directed Graph (BFS)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/course-schedule/" target="_blank" class="problem-link">Course Schedule - I</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/course-schedule-ii/" target="_blank" class="problem-link">Course Schedule - II</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/find-eventual-safe-states/" target="_blank" class="problem-link">Find eventual safe states</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/alien-dictionary/solution/" target="_blank" class="problem-link">Alien dictionary</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_14_3', 'lec_arrow_14_3')">
+                        <span>Lec 4: Shortest Path Algorithms and Problems</span>
+                        <span id="lec_arrow_14_3" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_14_3" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3UVQD4C" target="_blank" class="problem-link">Shortest Path in UG with unit weights</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3Eo1mhq" target="_blank" class="problem-link">Shortest Path in DAG</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/implementing-dijkstra-set-1-adjacency-matrix/1" target="_blank" class="problem-link">Djisktra's Algorithm</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3Et6alk" target="_blank" class="problem-link">Why priority Queue is used in Djisktra's Algorithm</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/shortest-path-in-binary-matrix/" target="_blank" class="problem-link">Shortest path in a binary maze</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/path-with-minimum-effort/" target="_blank" class="problem-link">Path with minimum effort</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/cheapest-flights-within-k-stops/" target="_blank" class="problem-link">Cheapest flights within k stops</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/network-delay-time/" target="_blank" class="problem-link">Network Delay time</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/number-of-ways-to-arrive-at-destination/" target="_blank" class="problem-link">Number of ways to arrive at destination</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3QAEsrY" target="_blank" class="problem-link">Minimum steps to reach end from start by performing multiplication and mod operations with array elements</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/distance-from-the-source-bellman-ford-algorithm/1" target="_blank" class="problem-link">Bellman Ford Algorithm</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/implementing-floyd-warshall2042/1" target="_blank" class="problem-link">Floyd Warshal Algorithm</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/find-the-city-with-the-smallest-number-of-neighbors-at-a-threshold-distance/" target="_blank" class="problem-link">Find the city with the smallest number of neighbors in a threshold distance</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_14_4', 'lec_arrow_14_4')">
+                        <span>Lec 5: MST and Disjoint Set</span>
+                        <span id="lec_arrow_14_4" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_14_4" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/minimum-spanning-tree/1" target="_blank" class="problem-link">Minimum Spanning Tree</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/minimum-spanning-tree/1" target="_blank" class="problem-link">Prim's Algorithm</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3QSGvHz" target="_blank" class="problem-link">Disjoint Set [Union by Rank]</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3QSGvHz" target="_blank" class="problem-link">Disjoint Set [Union by Size]</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/minimum-spanning-tree/1" target="_blank" class="problem-link">Kruskal's Algorithm</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/number-of-operations-to-make-network-connected/" target="_blank" class="problem-link">Number of operations to make network connected</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/most-stones-removed-with-same-row-or-column/" target="_blank" class="problem-link">Most stones removed with same rows or columns</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/accounts-merge/" target="_blank" class="problem-link">Accounts merge</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/number-of-islands-ii/" target="_blank" class="problem-link">Number of island II</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/making-a-large-island/" target="_blank" class="problem-link">Making a Large Island</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/swim-in-rising-water/" target="_blank" class="problem-link">Swim in rising water</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/critical-connections-in-a-network/discuss/382385/find-bridges-in-a-graph" target="_blank" class="problem-link">Bridges in Graph</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3T2LPKu" target="_blank" class="problem-link">Articulation Point</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3TbvByL" target="_blank" class="problem-link">Kosaraju's Algorithm</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-box">
+            <div class="step-header" onclick="toggleSection('step_body_15', 'step_arrow_15')">
+                <span>Step 16: Dynamic Programming [Introduction, 1D, 2D, Subsets, Strings, Stocks, LIS, MCM]</span>
+                <span id="step_arrow_15" class="arrow">▼</span>
+            </div>
+            <div id="step_body_15" class="step-body hidden">
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_15_0', 'lec_arrow_15_0')">
+                        <span>Lec 1: Introduction</span>
+                        <span id="lec_arrow_15_0" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_15_0" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3UWkWrS" target="_blank" class="problem-link">Dynamic Programming Introduction</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_15_1', 'lec_arrow_15_1')">
+                        <span>Lec 2: 1D DP</span>
+                        <span id="lec_arrow_15_1" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_15_1" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/climbing-stairs/" target="_blank" class="problem-link">Climbing Stars</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3Xn0Kkw" target="_blank" class="problem-link">Frog Jump(DP-3)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3GyNRya" target="_blank" class="problem-link">Frog Jump with k distances(DP-4)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/house-robber/" target="_blank" class="problem-link">Maximum sum of non-adjacent elements (DP 5)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/house-robber-ii/" target="_blank" class="problem-link">House Robber (DP 6)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3glc9kp" target="_blank" class="problem-link">Ninja's Training (DP 7)</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_15_2', 'lec_arrow_15_2')">
+                        <span>Lec 3: 2D/3D DP and DP on Grids</span>
+                        <span id="lec_arrow_15_2" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_15_2" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/unique-paths/" target="_blank" class="problem-link">Grid Unique Paths : DP on Grids (DP8)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/unique-paths-ii/" target="_blank" class="problem-link">Grid Unique Paths 2 (DP 9)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/minimum-path-sum/" target="_blank" class="problem-link">Minimum path sum in Grid (DP 10)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/triangle/" target="_blank" class="problem-link">Minimum path sum in Triangular Grid (DP 11)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/minimum-falling-path-sum/" target="_blank" class="problem-link">Minimum/Maximum Falling Path Sum (DP-12)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3U9k6XT" target="_blank" class="problem-link">3-d DP : Ninja and his friends (DP-13)</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_15_3', 'lec_arrow_15_3')">
+                        <span>Lec 4: DP on Subsets</span>
+                        <span id="lec_arrow_15_3" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_15_3" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/subset-sum-problem-1611555638/1" target="_blank" class="problem-link">Subset sum equal to target (DP- 14)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/partition-equal-subset-sum/" target="_blank" class="problem-link">Partition Equal Subset Sum (DP- 15)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/partition-array-into-two-arrays-to-minimize-sum-difference/" target="_blank" class="problem-link">Partition Set Into 2 Subsets With Min Absolute Sum Diff (DP- 16)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3AwVr8I" target="_blank" class="problem-link">Count Subsets with Sum K (DP - 17)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3gkAM0s" target="_blank" class="problem-link">Count Partitions with Given Difference (DP - 18)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/0-1-knapsack-problem0945/1" target="_blank" class="problem-link">0/1 Knapsack (DP - 19)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/coin-change/" target="_blank" class="problem-link">Minimum Coins (DP - 20)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/target-sum/" target="_blank" class="problem-link">Target Sum (DP - 21)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/coin-change-2/" target="_blank" class="problem-link">Coin Change 2 (DP - 22)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3Cbc5fz" target="_blank" class="problem-link">Unbounded Knapsack (DP - 23)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/rod-cutting0840/1" target="_blank" class="problem-link">Rod Cutting Problem | (DP - 24)</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_15_4', 'lec_arrow_15_4')">
+                        <span>Lec 5: DP on Strings</span>
+                        <span id="lec_arrow_15_4" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_15_4" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/longest-common-subsequence/" target="_blank" class="problem-link">Longest Common Subsequence | (DP - 25)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3T1Va4U" target="_blank" class="problem-link">Print Longest Common Subsequence | (DP - 26)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/longest-common-substring1452/1" target="_blank" class="problem-link">Longest Common Substring | (DP - 27)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/longest-palindromic-subsequence/" target="_blank" class="problem-link">Longest Palindromic Subsequence | (DP-28)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/minimum-insertion-steps-to-make-a-string-palindrome/" target="_blank" class="problem-link">Minimum insertions to make string palindrome | DP-29</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/delete-operation-for-two-strings/" target="_blank" class="problem-link">Minimum Insertions/Deletions to Convert String | (DP- 30)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/shortest-common-supersequence/" target="_blank" class="problem-link">Shortest Common Supersequence | (DP - 31)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/distinct-subsequences/" target="_blank" class="problem-link">Distinct Subsequences| (DP-32)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/edit-distance/" target="_blank" class="problem-link">Edit Distance | (DP-33)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/wildcard-matching/" target="_blank" class="problem-link">Wildcard Matching | (DP-34)</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_15_5', 'lec_arrow_15_5')">
+                        <span>Lec 6: DP on Stocks</span>
+                        <span id="lec_arrow_15_5" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_15_5" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/" target="_blank" class="problem-link">Best Time to Buy and Sell Stock |(DP-35)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/" target="_blank" class="problem-link">Buy and Sell Stock - II|(DP-36)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/description/" target="_blank" class="problem-link">Buy and Sell Stocks III|(DP-37)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/" target="_blank" class="problem-link">Buy and Stock Sell IV |(DP-38)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/" target="_blank" class="problem-link">Buy and Sell Stocks With Cooldown|(DP-39)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/" target="_blank" class="problem-link">Buy and Sell Stocks With Transaction Fee|(DP-40)</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_15_6', 'lec_arrow_15_6')">
+                        <span>Lec 7: DP on LIS</span>
+                        <span id="lec_arrow_15_6" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_15_6" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/longest-increasing-subsequence/" target="_blank" class="problem-link">Longest Increasing Subsequence |(DP-41)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3XiRbmG" target="_blank" class="problem-link">Printing Longest Increasing Subsequence|(DP-42)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3Pxf84L" target="_blank" class="problem-link">Longest Increasing Subsequence |(DP-43)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/largest-divisible-subset/" target="_blank" class="problem-link">Largest Divisible Subset|(DP-44)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/longest-string-chain/" target="_blank" class="problem-link">Longest String Chain|(DP-45)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/longest-bitonic-subsequence0824/1" target="_blank" class="problem-link">Longest Bitonic Subsequence |(DP-46)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/number-of-longest-increasing-subsequence/" target="_blank" class="problem-link">Number of Longest Increasing Subsequences|(DP-47)</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_15_7', 'lec_arrow_15_7')">
+                        <span>Lec 8: MCM DP | Partition DP</span>
+                        <span id="lec_arrow_15_7" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_15_7" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3Cgg36D" target="_blank" class="problem-link">Matrix Chain Multiplication|(DP-48)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3Cgg36D" target="_blank" class="problem-link">Matrix Chain Multiplication | Bottom-Up|(DP-49)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/minimum-cost-to-cut-a-stick/" target="_blank" class="problem-link">Minimum Cost to Cut the Stick|(DP-50)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/burst-balloons/" target="_blank" class="problem-link">Burst Balloons|(DP-51)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/parsing-a-boolean-expression/" target="_blank" class="problem-link">Evaluate Boolean Expression to True|(DP-52)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/palindrome-partitioning-ii/" target="_blank" class="problem-link">Palindrome Partitioning - II|(DP-53)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/partition-array-for-maximum-sum/" target="_blank" class="problem-link">Partition Array for Maximum Sum|(DP-54)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/maximal-rectangle/" target="_blank" class="problem-link">Maximum Rectangle Area with all 1's|(DP-55)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/count-square-submatrices-with-all-ones/" target="_blank" class="problem-link">Count Square Submatrices with All Ones|(DP-56)</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-box">
+            <div class="step-header" onclick="toggleSection('step_body_16', 'step_arrow_16')">
+                <span>Step 17: Tries</span>
+                <span id="step_arrow_16" class="arrow">▼</span>
+            </div>
+            <div id="step_body_16" class="step-body hidden">
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_16_0', 'lec_arrow_16_0')">
+                        <span>Lec 1: Theory and Implementation</span>
+                        <span id="lec_arrow_16_0" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_16_0" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/implement-trie-prefix-tree/" target="_blank" class="problem-link">Implement TRIE | INSERT | SEARCH | STARTSWITH</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3qwT4OL" target="_blank" class="problem-link">Implement Trie - 2 (Prefix Tree)</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3n3kedU" target="_blank" class="problem-link">Longest String with All Prefixes</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3ocRQW0" target="_blank" class="problem-link">Number of Distinct Substrings in a String</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_16_1', 'lec_arrow_16_1')">
+                        <span>Lec 2: Problems</span>
+                        <span id="lec_arrow_16_1" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_16_1" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3Vw4XB1" target="_blank" class="problem-link">Bit PreRequisites for TRIE Problems</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/maximum-xor-of-two-numbers-in-an-array/" target="_blank" class="problem-link">Maximum XOR of two numbers in an array</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/maximum-xor-with-an-element-from-array/" target="_blank" class="problem-link">Maximum XOR With an Element From Array</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-box">
+            <div class="step-header" onclick="toggleSection('step_body_17', 'step_arrow_17')">
+                <span>Step 18: String Algorithms [Extra]</span>
+                <span id="step_arrow_17" class="arrow">▼</span>
+            </div>
+            <div id="step_body_17" class="step-body hidden">
+                <div class="lec-box">
+                    <div class="lec-header" onclick="toggleSection('lec_body_17_0', 'lec_arrow_17_0')">
+                        <span>Advanced Strings</span>
+                        <span id="lec_arrow_17_0" class="arrow">▼</span>
+                    </div>
+                    <ul id="lec_body_17_0" class="problem-list hidden">
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/minimum-add-to-make-parentheses-valid/" target="_blank" class="problem-link">Minimum number of bracket reversals needed to make an expression balanced</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/count-and-say/" target="_blank" class="problem-link">Count and say</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://bit.ly/3glak75" target="_blank" class="problem-link">Hashing In Strings | Theory</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/repeated-string-match/discuss/416144/Rabin-Karp-algorithm-C%2B%2B-implementation" target="_blank" class="problem-link">Rabin Karp</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/implement-strstr/" target="_blank" class="problem-link">Z-Function</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/implement-strstr/" target="_blank" class="problem-link">KMP algo / LPS(pi) array</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/shortest-palindrome/" target="_blank" class="problem-link">Shortest Palindrome</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://leetcode.com/problems/longest-happy-prefix/" target="_blank" class="problem-link">Longest happy prefix</a>
+                        </li>
+                        <li class="problem-item">
+                            <input type="checkbox" class="checkbox">
+                            <a href="https://practice.geeksforgeeks.org/problems/count-palindromic-subsequences/1#:~:text=Given%20a%20string%20str%20of,formed%20from%20the%20string%20str.&text=Your%20Task%3A,read%20input%20or%20print%20anything." target="_blank" class="problem-link">Count palindromic subsequence in given string</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div> </div> <script>
+// 1. Toggle Function with Smooth Transition Logic
+function toggleSection(id, arrowId) {
+    const el = document.getElementById(id);
+    const arrow = document.getElementById(arrowId);
+    
+    // Toggle logic for Step bodies and Lectures
+    if (el.classList.contains('hidden')) {
+        el.classList.remove('hidden');
+        if(arrow) arrow.style.transform = "rotate(180deg)";
+    } else {
+        el.classList.add('hidden');
+        if(arrow) arrow.style.transform = "rotate(0deg)";
+    }
+}
+
+// 2. Advanced Search Function
+function runSearch() {
+    const input = document.getElementById('searchBar').value.toUpperCase();
+    const items = document.getElementsByClassName('problem-item');
+    const lecs = document.getElementsByClassName('lec-box');
+    const steps = document.getElementsByClassName('step-box');
+    const bodies = document.querySelectorAll('.step-body, .problem-list');
+    const arrows = document.querySelectorAll('.arrow');
+
+    // If search is empty, reset view to collapsed state (or previous state)
+    // For simplicity, we collapse everything except top levels to clean up view
+    if (input === "") {
+        for (let b of bodies) b.classList.add('hidden');
+        for (let a of arrows) a.style.transform = "rotate(0deg)";
+        for (let s of steps) s.style.display = "";
+        for (let l of lecs) l.style.display = "";
+        for (let i of items) i.style.display = "";
+        return;
+    }
+
+    // Filter Items
+    for (let i = 0; i < items.length; i++) {
+        const link = items[i].querySelector('a');
+        const text = link ? link.innerText.toUpperCase() : "";
+        items[i].style.display = text.indexOf(input) > -1 ? "" : "none";
+    }
+
+    // Manage Lecture Boxes visibility
+    for (let l of lecs) {
+        const visibleItems = l.querySelectorAll('.problem-item:not([style*="display: none"])');
+        const listBody = l.querySelector('.problem-list');
+        const lecArrow = l.querySelector('.arrow');
+        
+        if (visibleItems.length > 0) {
+            l.style.display = ""; // Show lecture box
+            listBody.classList.remove('hidden'); // Expand list
+            if(lecArrow) lecArrow.style.transform = "rotate(180deg)";
+            
+            // Also expand the parent Step
+            const stepBody = l.closest('.step-body');
+            const stepArrow = stepBody.previousElementSibling.querySelector('.arrow');
+            stepBody.classList.remove('hidden');
+            if(stepArrow) stepArrow.style.transform = "rotate(180deg)";
+        } else {
+            l.style.display = "none";
+        }
+    }
+    
+    // Manage Step Boxes visibility
+    for (let s of steps) {
+        const visibleLecs = s.querySelectorAll('.lec-box:not([style*="display: none"])');
+        s.style.display = (visibleLecs.length > 0) ? "" : "none";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    const items = document.querySelectorAll('.problem-item');
+    
+    items.forEach((item, index) => {
+        const checkbox = item.querySelector('input[type="checkbox"]');
+        const link = item.querySelector('a');
+        
+        if (checkbox && link) {
+            // Generate a unique ID for this specific problem
+            const problemID = "dsa_problem_" + link.innerText.replace(/\s+/g, '_').toLowerCase();
+            
+            // Create the premium wrapper
+            const label = document.createElement('label');
+            label.className = 'checkbox-wrapper';
+            
+            const newCheckbox = checkbox.cloneNode(true);
+            newCheckbox.id = problemID;
+            
+            // --- LOAD SAVED STATE ---
+            const isChecked = localStorage.getItem(problemID) === 'true';
+            newCheckbox.checked = isChecked;
+
+            const newLink = link.cloneNode(true);
+            newLink.className = 'problem-link problem-text';
+            
+            const customSpan = document.createElement('span');
+            customSpan.className = 'custom-checkbox';
+            
+            // --- SAVE STATE ON CHANGE ---
+            newCheckbox.addEventListener('change', function() {
+                localStorage.setItem(problemID, this.checked);
+            });
+
+            item.innerHTML = '';
+            label.appendChild(newCheckbox);
+            label.appendChild(customSpan);
+            item.appendChild(label);
+            item.appendChild(newLink);
+        }
+    });
+});
+</script>
+
+</body>
+</html>
