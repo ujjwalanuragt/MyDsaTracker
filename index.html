@@ -51,10 +51,59 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 800;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
             letter-spacing: -1px;
             font-size: 2.5rem;
             text-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        /* --- NEW PROGRESS DASHBOARD --- */
+        .progress-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .progress-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 12px;
+        }
+
+        .progress-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .progress-stats {
+            font-family: 'Inter', monospace;
+            font-size: 1.2rem;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--success));
+            width: 0%;
+            border-radius: 6px;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
         }
 
         /* Search Bar */
@@ -78,7 +127,7 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             transition: var(--transition);
             font-family: 'Inter', sans-serif;
-            box-sizing: border-box; /* Fix padding width issue */
+            box-sizing: border-box;
         }
 
         #searchBar::placeholder { color: var(--text-muted); }
@@ -129,6 +178,26 @@
         
         .step-header:hover { background: rgba(255, 255, 255, 0.06); }
 
+        /* Badge Styling */
+        .progress-badge {
+            display: inline-block;
+            margin-left: 12px;
+            padding: 4px 10px;
+            font-size: 0.8rem;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.08);
+            color: var(--text-muted);
+            font-weight: 500;
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+
+        .progress-badge.completed {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--success);
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
         .lec-header {
             background: rgba(0, 0, 0, 0.2);
             padding: 15px 30px;
@@ -177,16 +246,14 @@
         }
 
         /* --- PREMIUM CHECKBOX STYLING --- */
-        /* Wrapper injected by JS */
         .checkbox-wrapper {
             position: relative;
             display: inline-block;
             width: 22px;
             height: 22px;
-            flex-shrink: 0; /* Prevent shrinking */
+            flex-shrink: 0;
         }
 
-        /* Hide default checkbox */
         .checkbox-wrapper input {
             opacity: 0;
             width: 0;
@@ -194,7 +261,6 @@
             position: absolute;
         }
 
-        /* Custom Box */
         .custom-checkbox {
             position: absolute;
             top: 0;
@@ -208,7 +274,6 @@
             cursor: pointer;
         }
 
-        /* Checked State */
         .checkbox-wrapper input:checked ~ .custom-checkbox {
             background-color: var(--success);
             border-color: var(--success);
@@ -216,7 +281,6 @@
             transform: scale(1.05);
         }
 
-        /* Checkmark Icon */
         .custom-checkbox:after {
             content: "";
             position: absolute;
@@ -234,7 +298,6 @@
             display: block;
         }
 
-        /* Strikethrough effect when checked */
         .checkbox-wrapper input:checked ~ .problem-text {
             text-decoration: line-through;
             color: rgba(255, 255, 255, 0.3);
@@ -263,6 +326,7 @@
             h1 { font-size: 1.8rem; }
             .problem-item { padding: 15px 20px; }
             .step-header { font-size: 1rem; padding: 15px 20px; }
+            .progress-stats { font-size: 1rem; }
         }
     </style>
 </head>
@@ -270,6 +334,16 @@
 
 <div class="container">
     <h1>A2Z DSA Dashboard</h1>
+
+    <div class="progress-card">
+        <div class="progress-header-row">
+            <span class="progress-title">Overall Progress</span>
+            <span class="progress-stats" id="globalStats">0 / 0</span>
+        </div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="globalProgressBar"></div>
+        </div>
+    </div>
     
     <div class="search-container">
         <input type="text" id="searchBar" placeholder="🔍 Search topics or problems..." onkeyup="runSearch()">
@@ -279,7 +353,7 @@
 
         <div class="step-box">
             <div class="step-header" onclick="toggleSection('step_body_0', 'step_arrow_0')">
-                <span>Step 1: Learn the basics</span>
+                <span class="step-title-text">Step 1: Learn the basics</span>
                 <span id="step_arrow_0" class="arrow">▼</span>
             </div>
             <div id="step_body_0" class="step-body hidden">
@@ -448,7 +522,7 @@
 
         <div class="step-box">
             <div class="step-header" onclick="toggleSection('step_body_1', 'step_arrow_1')">
-                <span>Step 2: Learn Important Sorting Techniques</span>
+                <span class="step-title-text">Step 2: Learn Important Sorting Techniques</span>
                 <span id="step_arrow_1" class="arrow">▼</span>
             </div>
             <div id="step_body_1" class="step-body hidden">
@@ -501,7 +575,7 @@
 
         <div class="step-box">
             <div class="step-header" onclick="toggleSection('step_body_2', 'step_arrow_2')">
-                <span>Step 3: Solve Problems on Arrays [Easy -> Medium -> Hard]</span>
+                <span class="step-title-text">Step 3: Solve Problems on Arrays [Easy -> Medium -> Hard]</span>
                 <span id="step_arrow_2" class="arrow">▼</span>
             </div>
             <div id="step_body_2" class="step-body hidden">
@@ -694,7 +768,7 @@
 
         <div class="step-box">
             <div class="step-header" onclick="toggleSection('step_body_3', 'step_arrow_3')">
-                <span>Step 4: Binary Search [1D, 2D Arrays, Search Space]</span>
+                <span class="step-title-text">Step 4: Binary Search [1D, 2D Arrays, Search Space]</span>
                 <span id="step_arrow_3" class="arrow">▼</span>
             </div>
             <div id="step_body_3" class="step-body hidden">
@@ -855,7 +929,7 @@
 
         <div class="step-box">
             <div class="step-header" onclick="toggleSection('step_body_4', 'step_arrow_4')">
-                <span>Step 5: Strings [Basic & Medium]</span>
+                <span class="step-title-text">Step 5: Strings [Basic & Medium]</span>
                 <span id="step_arrow_4" class="arrow">▼</span>
             </div>
             <div id="step_body_4" class="step-body hidden">
@@ -940,7 +1014,7 @@
 
         <div class="step-box">
             <div class="step-header" onclick="toggleSection('step_body_5', 'step_arrow_5')">
-                <span>Step 6: Learn LinkedList [Single LL, Double LL, Medium, Hard]</span>
+                <span class="step-title-text">Step 6: Learn LinkedList [Single LL, Double LL, Medium, Hard]</span>
                 <span id="step_arrow_5" class="arrow">▼</span>
             </div>
             <div id="step_body_5" class="step-body hidden">
@@ -1113,7 +1187,7 @@
 
         <div class="step-box">
             <div class="step-header" onclick="toggleSection('step_body_6', 'step_arrow_6')">
-                <span>Step 7: Recursion [Pattern Wise]</span>
+                <span class="step-title-text">Step 7: Recursion [Pattern Wise]</span>
                 <span id="step_arrow_6" class="arrow">▼</span>
             </div>
             <div id="step_body_6" class="step-body hidden">
@@ -1246,7 +1320,7 @@
 
         <div class="step-box">
             <div class="step-header" onclick="toggleSection('step_body_7', 'step_arrow_7')">
-                <span>Step 8: Bit Manipulation [Concepts & Tips]</span>
+                <span class="step-title-text">Step 8: Bit Manipulation [Concepts & Tips]</span>
                 <span id="step_arrow_7" class="arrow">▼</span>
             </div>
             <div id="step_body_7" class="step-body hidden">
@@ -1351,7 +1425,7 @@
 
         <div class="step-box">
             <div class="step-header" onclick="toggleSection('step_body_8', 'step_arrow_8')">
-                <span>Step 9: Stack and Queues [Learning, Pre-In-Post, Monotonic, Implementation]</span>
+                <span class="step-title-text">Step 9: Stack and Queues [Learning, Pre-In-Post, Monotonic, Implementation]</span>
                 <span id="step_arrow_8" class="arrow">▼</span>
             </div>
             <div id="step_body_8" class="step-body hidden">
@@ -1512,7 +1586,7 @@
 
         <div class="step-box">
             <div class="step-header" onclick="toggleSection('step_body_9', 'step_arrow_9')">
-                <span>Step 10: Sliding Window & Two Pointer Combined Problems</span>
+                <span class="step-title-text">Step 10: Sliding Window & Two Pointer Combined Problems</span>
                 <span id="step_arrow_9" class="arrow">▼</span>
             </div>
             <div id="step_body_9" class="step-body hidden">
@@ -1585,7 +1659,7 @@
 
         <div class="step-box">
             <div class="step-header" onclick="toggleSection('step_body_10', 'step_arrow_10')">
-                <span>Step 11: Heaps [Learning, Medium, Hard Problems]</span>
+                <span class="step-title-text">Step 11: Heaps [Learning, Medium, Hard Problems]</span>
                 <span id="step_arrow_10" class="arrow">▼</span>
             </div>
             <div id="step_body_10" class="step-body hidden">
@@ -1666,7 +1740,7 @@
 
         <div class="step-box">
             <div class="step-header" onclick="toggleSection('step_body_11', 'step_arrow_11')">
-                <span>Step 12: Greedy Algorithms [Easy, Medium/Hard]</span>
+                <span class="step-title-text">Step 12: Greedy Algorithms [Easy, Medium/Hard]</span>
                 <span id="step_arrow_11" class="arrow">▼</span>
             </div>
             <div id="step_body_11" class="step-body hidden">
@@ -1755,7 +1829,7 @@
 
         <div class="step-box">
             <div class="step-header" onclick="toggleSection('step_body_12', 'step_arrow_12')">
-                <span>Step 13: Binary Trees [Traversals, Medium, Hard Problems]</span>
+                <span class="step-title-text">Step 13: Binary Trees [Traversals, Medium, Hard Problems]</span>
                 <span id="step_arrow_12" class="arrow">▼</span>
             </div>
             <div id="step_body_12" class="step-body hidden">
@@ -1944,7 +2018,7 @@
 
         <div class="step-box">
             <div class="step-header" onclick="toggleSection('step_body_13', 'step_arrow_13')">
-                <span>Step 14: Binary Search Trees [Concepts and Practice]</span>
+                <span class="step-title-text">Step 14: Binary Search Trees [Concepts and Practice]</span>
                 <span id="step_arrow_13" class="arrow">▼</span>
             </div>
             <div id="step_body_13" class="step-body hidden">
@@ -2033,7 +2107,7 @@
 
         <div class="step-box">
             <div class="step-header" onclick="toggleSection('step_body_14', 'step_arrow_14')">
-                <span>Step 15: Graphs [Learning, BFS/DFS, Topo Sort, Shortest Path, MST]</span>
+                <span class="step-title-text">Step 15: Graphs [Learning, BFS/DFS, Topo Sort, Shortest Path, MST]</span>
                 <span id="step_arrow_14" class="arrow">▼</span>
             </div>
             <div id="step_body_14" class="step-body hidden">
@@ -2298,7 +2372,7 @@
 
         <div class="step-box">
             <div class="step-header" onclick="toggleSection('step_body_15', 'step_arrow_15')">
-                <span>Step 16: Dynamic Programming [Introduction, 1D, 2D, Subsets, Strings, Stocks, LIS, MCM]</span>
+                <span class="step-title-text">Step 16: Dynamic Programming [Introduction, 1D, 2D, Subsets, Strings, Stocks, LIS, MCM]</span>
                 <span id="step_arrow_15" class="arrow">▼</span>
             </div>
             <div id="step_body_15" class="step-body hidden">
@@ -2595,7 +2669,7 @@
 
         <div class="step-box">
             <div class="step-header" onclick="toggleSection('step_body_16', 'step_arrow_16')">
-                <span>Step 17: Tries</span>
+                <span class="step-title-text">Step 17: Tries</span>
                 <span id="step_arrow_16" class="arrow">▼</span>
             </div>
             <div id="step_body_16" class="step-body hidden">
@@ -2648,7 +2722,7 @@
 
         <div class="step-box">
             <div class="step-header" onclick="toggleSection('step_body_17', 'step_arrow_17')">
-                <span>Step 18: String Algorithms [Extra]</span>
+                <span class="step-title-text">Step 18: String Algorithms [Extra]</span>
                 <span id="step_arrow_17" class="arrow">▼</span>
             </div>
             <div id="step_body_17" class="step-body hidden">
@@ -2724,8 +2798,7 @@ function runSearch() {
     const bodies = document.querySelectorAll('.step-body, .problem-list');
     const arrows = document.querySelectorAll('.arrow');
 
-    // If search is empty, reset view to collapsed state (or previous state)
-    // For simplicity, we collapse everything except top levels to clean up view
+    // If search is empty, reset view
     if (input === "") {
         for (let b of bodies) b.classList.add('hidden');
         for (let a of arrows) a.style.transform = "rotate(0deg)";
@@ -2770,6 +2843,49 @@ function runSearch() {
     }
 }
 
+// 3. Stats Update Function
+function updateStats() {
+    const steps = document.querySelectorAll('.step-box');
+    let globalTotal = 0;
+    let globalChecked = 0;
+
+    steps.forEach(step => {
+        const checkboxes = step.querySelectorAll('input[type="checkbox"]');
+        const total = checkboxes.length;
+        const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
+        
+        // Update Step Badge
+        const header = step.querySelector('.step-header');
+        let badge = header.querySelector('.progress-badge');
+        
+        // Create badge if it doesn't exist
+        if (!badge) {
+            badge = document.createElement('span');
+            badge.className = 'progress-badge';
+            // Insert after title text
+            const titleSpan = header.querySelector('.step-title-text');
+            if(titleSpan) titleSpan.appendChild(badge);
+        }
+        
+        badge.innerText = `${checked}/${total}`;
+        
+        // Add styling for completion
+        if (total > 0 && checked === total) {
+            badge.classList.add('completed');
+        } else {
+            badge.classList.remove('completed');
+        }
+
+        globalTotal += total;
+        globalChecked += checked;
+    });
+
+    // Update Global Dashboard
+    const percent = globalTotal === 0 ? 0 : Math.round((globalChecked / globalTotal) * 100);
+    document.getElementById('globalStats').innerText = `${globalChecked} / ${globalTotal} (${percent}%)`;
+    document.getElementById('globalProgressBar').style.width = `${percent}%`;
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     const items = document.querySelectorAll('.problem-item');
     
@@ -2801,6 +2917,7 @@ document.addEventListener("DOMContentLoaded", function() {
             // --- SAVE STATE ON CHANGE ---
             newCheckbox.addEventListener('change', function() {
                 localStorage.setItem(problemID, this.checked);
+                updateStats(); // Update stats whenever a box changes
             });
 
             item.innerHTML = '';
@@ -2810,6 +2927,9 @@ document.addEventListener("DOMContentLoaded", function() {
             item.appendChild(newLink);
         }
     });
+
+    // Initial Stats Load
+    updateStats();
 });
 </script>
 
