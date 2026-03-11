@@ -1,0 +1,8 @@
+# Generated output files
+dining_philosophers/Dining_Philosophers_Problem.pptx
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.env
